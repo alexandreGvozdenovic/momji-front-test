@@ -42,18 +42,29 @@ function App() {
   return (
     <div className="App">
       <h1>Drag'n drop town</h1>
-      <p>You have {files.length} uploaded files:</p>
-      {files.map((file, index) => {
-        return <FileName key={file.name + index} file={file} />;
-      })}
 
-      {error && <p>You can't upload more than 5 files</p>}
-      <form>
-        <DragAndDrop files={files} setFiles={setFiles} setError={setError} />
-        <button onClick={(e) => handleSend(e)}>Send</button>
-      </form>
-      {(isSending || progress > 0) && (
-        <ProgressBar bgcolor={"#7DD181"} completed={progress} />
+      {isSending || progress > 0 ? (
+        <>
+          <p>{progress === 100 ? "Upload complete" : "Loading files"}</p>
+          <ProgressBar bgcolor={"#7DD181"} completed={progress} />
+        </>
+      ) : (
+        <>
+          <p>You have {files.length} uploaded files:</p>
+          {files.map((file, index) => {
+            return <FileName key={file.name + index} file={file} />;
+          })}
+
+          {error && <p>You can't upload more than 5 files</p>}
+          <form>
+            <DragAndDrop
+              files={files}
+              setFiles={setFiles}
+              setError={setError}
+            />
+            <button onClick={(e) => handleSend(e)}>Send</button>
+          </form>
+        </>
       )}
     </div>
   );
